@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PTC Pabianice - Wydarzenia</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrapper">
+    <div id="header"></div>
+    <script>
+        fetch("/partials/header.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("header").innerHTML = data);
+     </script>
+  
+  <!-- Results Section -->
+  <main class="content">
+    <!-- Replace the static list with a container -->
+<section id="results" class="container">
+    <h2>Wyniki</h2>
+    <ul id="tournamentList"></ul>
+  </section>
+  
+  <div id="tournamentModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Szczegóły Turnieju</h3>
+      <p id="tournamentDetails"></p>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tournamentList = document.getElementById('tournamentList');
+      const modal = document.getElementById("tournamentModal");
+      const modalContent = document.getElementById("tournamentDetails");
+      const closeBtn = document.querySelector(".close");
+  
+      // Fetch tournament data from the JSON file
+      fetch("/data/results.json")
+        .then(response => response.json())
+        .then(data => {
+          data.tournaments.forEach(tournament => {
+            // Create list item for each tournament
+            const li = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = "#";
+            link.classList.add('tournament-link');
+            // Store tournament details using a data attribute
+            link.dataset.tournamentId = tournament.id;
+            link.textContent = `${tournament.title} - ${tournament.date}`;
+            li.appendChild(link);
+            tournamentList.appendChild(li);
+          });
+  
+          // Add click event to tournament links
+          document.querySelectorAll('.tournament-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              // Find the tournament data by id
+              const tournamentId = this.dataset.tournamentId;
+              const tournamentData = data.tournaments.find(t => t.id == tournamentId);
+              modalContent.textContent = tournamentData
+                ? tournamentData.details
+                : "Brak szczegółów dla tego turnieju.";
+              modal.style.display = "block";
+            });
+          });
+        })
+        .catch(error => console.error("Error loading tournament data:", error));
+  
+      // Close modal when the user clicks the close button
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = "none";
+      });
+  
+      // Close modal when clicking outside the modal content
+      window.addEventListener('click', function(e) {
+        if (e.target == modal) {
+          modal.style.display = "none";
+        }
+      });
+    });
+  </script>
+  
+  </main>
+  
+  <!-- Modal for Tournament Details -->
+  <div id="tournamentModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Szczegóły Turnieju</h3>
+      <p id="tournamentDetails"></p>
+    </div>
+  </div>
+  
+  
+  <div id="footer"></div>
+  <script>
+    fetch("/partials/footer.html")
+      .then(response => response.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get modal elements
+      var modal = document.getElementById("tournamentModal");
+      var modalContent = document.getElementById("tournamentDetails");
+      var closeBtn = document.querySelector(".close");
+    
+      // Dummy tournament data (replace or extend these with real details)
+      var tournaments = {
+        1: "Szczegóły dla Turnieju 1 - 10 marca 2025. Tutaj możesz dodać wyniki, statystyki i inne informacje.",
+        2: "Szczegóły dla Turnieju 2 - 5 kwietnia 2025. Informacje o uczestnikach, wynikach i ciekawostki.",
+        3: "Szczegóły dla Turnieju 3 - 20 maja 2025. Wyniki, podsumowanie turnieju oraz opinie uczestników."
+      };
+    
+      // Add click event to all tournament links
+      document.querySelectorAll('.tournament-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var tournamentId = this.getAttribute('data-tournament');
+          modalContent.textContent = tournaments[tournamentId] || "Brak szczegółów dla tego turnieju.";
+          modal.style.display = "block";
+        });
+      });
+    
+      // Close modal when the user clicks the close button
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = "none";
+      });
+    
+      // Close modal when clicking outside the modal content
+      window.addEventListener('click', function(e) {
+        if (e.target == modal) {
+          modal.style.display = "none";
+        }
+      });
+    });
+    </script>
+    
+</body>
+</html>

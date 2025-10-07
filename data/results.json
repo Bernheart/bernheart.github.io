@@ -1,0 +1,55 @@
+{
+    "tournaments": [
+      {
+        "id": 1,
+        "title": "Mistrzostwa Bridge – Wiosenny Puchar",
+        "date": "10 marca 2025",
+        "details": "Turniej rozgrywany w systemie Swiss, w którym 24 pary rywalizują o miano najlepszego w Warszawie. Obejmuje rundy kwalifikacyjne oraz finałową tabelę rankingową, z kompleksową analizą wyników i statystyk.",
+        "location": "Warszawa",
+        "participants": 24,
+        "format": "Swiss",
+        "prize": "10 000 PLN"
+      },
+      {
+        "id": 2,
+        "title": "Puchar Mistrzów Bridge 2025",
+        "date": "5 kwietnia 2025",
+        "details": "Turniej drużynowy dla najlepszych par z całego kraju, rozgrywany metodą eliminacji, półfinałów i finału. Impreza odbywa się w Krakowie, oferując emocjonujące pojedynki i prestiżowe nagrody.",
+        "location": "Kraków",
+        "participants": "16 drużyn",
+        "format": "Knockout",
+        "prize": "15 000 PLN"
+      },
+      {
+        "id": 3,
+        "title": "Międzynarodowy Turniej Bridge 2025",
+        "date": "20 maja 2025",
+        "details": "Prestizowy turniej o zasięgu międzynarodowym, przyciągający graczy z wielu krajów. Rozgrywany w formacie Round Robin, turniej w Gdańsku kładzie nacisk na międzynarodową rywalizację i wymianę doświadczeń.",
+        "location": "Gdańsk",
+        "participants": "32 pary",
+        "format": "Round Robin",
+        "prize": "20 000 PLN"
+      },
+      {
+        "id": 4,
+        "title": "Turniej Młodych Graczy Bridge",
+        "date": "12 czerwca 2025",
+        "details": "Specjalistyczny turniej dedykowany młodym talentom w wieku 18-25 lat. Rozgrywany w systemie Swiss w Wrocławiu, turniej ma na celu rozwój umiejętności oraz promocję młodych graczy w środowisku bridge.",
+        "location": "Wrocław",
+        "participants": "20 pary",
+        "format": "Swiss",
+        "prize": "5 000 PLN"
+      },
+      {
+        "id": 5,
+        "title": "Mistrzostwa Seniorów Bridge",
+        "date": "30 czerwca 2025",
+        "details": "Turniej dla doświadczonych graczy, promujący zdrową rywalizację i dzielenie się wiedzą. Rozgrywany w formacie Round Robin w Poznaniu, zapewnia nie tylko emocje, ale i możliwość analizy zaawansowanych strategii gry.",
+        "location": "Poznań",
+        "participants": "18 pary",
+        "format": "Round Robin",
+        "prize": "8 000 PLN"
+      }
+    ]
+  }
+  

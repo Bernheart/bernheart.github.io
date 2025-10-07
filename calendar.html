@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PTC Pabianice - Kalendarz</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* Navigation controls at the top */
+    .calendar-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    /* Calendar grid: 7 columns for each day of the week */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    /* Each day is a bordered card */
+    .day {
+      border: 1px solid #ccc;
+      height: 100px;
+      padding: 5px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .day:hover {
+      background-color: #f9f9f9;
+    }
+    /* Display the day number in bold */
+    .day-number {
+      font-weight: bold;
+    }
+    /* Container for event dots */
+    .events {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+    }
+    .event-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 2px;
+    }
+    /* Tooltip style for hover details */
+    .tooltip {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #aaa;
+      padding: 5px;
+      box-sizing: border-box;
+      font-size: 0.8em;
+      overflow-y: auto;
+    }
+    .day:hover .tooltip {
+      display: block;
+    }
+    /* Style for today's date */
+    .today {
+      border: 2px solid #5d3fd3;
+      background-color: #5d3fd32c;
+    }
+    /* Style for past days */
+    .past {
+      background-color: #e0e0e0;
+    }
+
+    .calendar-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .calendar-day-names {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    .event-dot-container {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .event-label {
+      font-size: 0.7em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div id="header"></div>
+    <script>
+      fetch("/partials/header.html")
+        .then(response => response.text())
+        .then(data => document.getElementById("header").innerHTML = data);
+    </script>
+    
+    <main class="content">
+      <section id="events" class="container">
+        <h2>Kalendarz</h2>
+        <!-- Element to display the current month and year -->
+        <div id="monthTitle" style="font-size:2.0em; font-weight:bold; margin-bottom:10px;"></div>
+        <div class="calendar-controls">
+          <button id="prevMonth">&#x276E;</button>
+          <select id="monthSelect"></select>
+          <button id="nextMonth">&#x276F;</button>
+        </div>
+
+        <div class="calendar-wrapper">
+          <!-- Polish day names -->
+          <div class="calendar-day-names">
+            <div>Pon</div>
+            <div>Wto</div>
+            <div>Śr</div>
+            <div>Czw</div>
+            <div>Pią</div>
+            <div>Sob</div>
+            <div>Nie</div>
+          </div>
+          <!-- Calendar grid -->
+          <div class="calendar" id="calendar"></div>
+        </div>
+        
+      </section>
+    </main>
+    
+    <div id="footer"></div>
+    <script>
+      fetch("/partials/footer.html")
+        .then(response => response.text())
+        .then(data => document.getElementById("footer").innerHTML = data);
+    </script>
+
+    <script>
+      let eventsData = [];
+      // Make currentYear and currentMonth global so the add-event form can use them
+      let currentYear, currentMonth;
+
+      // Load events from an external JSON file (e.g., calendar.json)
+      async function loadEvents() {
+          try {
+              const response = await fetch('./data/calendar.json');
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              eventsData = await response.json();
+          } catch (error) {
+              console.error('Failed to load events:', error);
+          }
+      }
+
+      // Render the calendar grid for a given year and month
+      function renderCalendar(year, month) {
+          const calendarEl = document.getElementById('calendar');
+          calendarEl.innerHTML = '';
+
+          // Update the month title (e.g., "kwiecień 2025") using Polish locale
+          const monthTitleEl = document.getElementById('monthTitle');
+          monthTitleEl.textContent = new Date(year, month).toLocaleString('pl', { month: 'long', year: 'numeric' });
+
+          // Determine the first day of the month and the total number of days
+          const firstDayOfMonth = new Date(year, month, 1);
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+          // Get the day index for the first day (0 = Sunday, 1 = Monday, etc.)
+          const startDay = firstDayOfMonth.getDay();
+
+          // Optionally add empty cells for days before the month starts
+          for (let i = 0; i < startDay; i++) {
+              const emptyCell = document.createElement('div');
+              emptyCell.classList.add('day');
+              emptyCell.style.backgroundColor = '#f0f0f0';
+              calendarEl.appendChild(emptyCell);
+          }
+
+          // Get today's date for comparisons
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+
+          // Generate a cell for each day of the month
+          for (let day = 1; day <= daysInMonth; day++) {
+              const dayEl = document.createElement('div');
+              dayEl.classList.add('day');
+
+              // Create date object for the current cell and clear time for proper comparison
+              const currentDate = new Date(year, month, day);
+              currentDate.setHours(0, 0, 0, 0);
+              
+              // Highlight today and mark past days
+              if (currentDate.getTime() === today.getTime()) {
+                  dayEl.classList.add('today');
+              } else if (currentDate < today) {
+                  dayEl.classList.add('past');
+              }
+
+              // Day number displayed on the card
+              const dayNum = document.createElement('div');
+              dayNum.classList.add('day-number');
+              dayNum.textContent = day;
+              dayEl.appendChild(dayNum);
+
+              // Format the date as DD-MM-YYYY for matching events
+              const monthStr = String(month + 1).padStart(2, '0');
+              const dayStr = String(day).padStart(2, '0');
+              const dateStr = `${dayStr}-${monthStr}-${year}`;
+
+              // Filter events for the current day including recurring events
+              const dayEvents = eventsData.filter(ev => {
+                  if(ev.recurrence) {
+                      // Parse event date (in DD-MM-YYYY)
+                      const parts = ev.date.split('-');
+                      if(parts.length !== 3) return false;
+                      const eventDay = parseInt(parts[0], 10);
+                      const eventMonth = parseInt(parts[1], 10) - 1;
+                      const eventYear = parseInt(parts[2], 10);
+                      const eventDate = new Date(eventYear, eventMonth, eventDay);
+                      // Only show event if the current date is on or after the event start date
+                      if (currentDate < eventDate) return false;
+                      if(ev.recurrence === 'weekly') {
+                          return currentDate.getDay() === eventDate.getDay();
+                      } else if(ev.recurrence === 'monthly') {
+                          return currentDate.getDate() === eventDate.getDate();
+                      } else if(ev.recurrence === 'yearly') {
+                          return (currentDate.getDate() === eventDate.getDate() &&
+                                  currentDate.getMonth() === eventDate.getMonth());
+                      }
+                      return false;
+                  } else {
+                      return ev.date === dateStr;
+                  }
+              });
+
+              // Create a container for event dots
+              const eventsContainer = document.createElement('div');
+              eventsContainer.classList.add('events');
+
+              // Create a tooltip container to show detailed event info on hover
+              const tooltip = document.createElement('div');
+              tooltip.classList.add('tooltip');
+
+              if (dayEvents.length > 0) {
+                  dayEvents.forEach(ev => {
+                      // Create the event dot
+                      const dot = document.createElement('div');
+                      dot.classList.add('event-dot');
+                      dot.style.backgroundColor = ev.color || 'blue';
+                      eventsContainer.appendChild(dot);
+
+                      // Append event details to the tooltip
+                      const eventText = document.createElement('div');
+                      eventText.textContent = ev.name;
+                      tooltip.appendChild(eventText);
+                  });
+              }
+
+              dayEl.appendChild(eventsContainer);
+              dayEl.appendChild(tooltip);
+              calendarEl.appendChild(dayEl);
+          }
+      }
+
+      function renderEvents(dayEl, dayEvents) {
+        const eventsContainer = document.createElement('div');
+        eventsContainer.classList.add('events');
+        
+        dayEvents.forEach(ev => {
+          const eventWrapper = document.createElement('div');
+          eventWrapper.classList.add('event-dot-container');
+          
+          const dot = document.createElement('div');
+          dot.classList.add('event-dot');
+          dot.style.backgroundColor = ev.color || 'blue';
+          
+          const label = document.createElement('span');
+          label.classList.add('event-label');
+          label.textContent = ev.shortName || ev.name.substring(0, 3);
+          
+          eventWrapper.appendChild(dot);
+          eventWrapper.appendChild(label);
+          eventsContainer.appendChild(eventWrapper);
+        });
+        dayEl.appendChild(eventsContainer);
+      }
+
+      async function initCalendar() {
+          // Load event data from an external file
+          await loadEvents();
+
+          // Populate the month dropdown with Polish month names
+          const monthSelect = document.getElementById('monthSelect');
+          for (let m = 0; m < 12; m++) {
+              const option = document.createElement('option');
+              option.value = m;
+              option.textContent = new Date(0, m).toLocaleString('pl', { month: 'long' });
+              monthSelect.appendChild(option);
+          }
+
+          // Set currentYear and currentMonth globally using today's date
+          const today = new Date();
+          currentYear = today.getFullYear();
+          currentMonth = today.getMonth();
+
+          // Render the current month
+          renderCalendar(currentYear, currentMonth);
+          monthSelect.value = currentMonth;
+
+          // Set up navigation listeners
+          document.getElementById('prevMonth').addEventListener('click', () => {
+              currentMonth--;
+              if (currentMonth < 0) {
+                  currentMonth = 11;
+                  currentYear--;
+              }
+              monthSelect.value = currentMonth;
+              renderCalendar(currentYear, currentMonth);
+          });
+
+          document.getElementById('nextMonth').addEventListener('click', () => {
+              currentMonth++;
+              if (currentMonth > 11) {
+                  currentMonth = 0;
+                  currentYear++;
+              }
+              monthSelect.value = currentMonth;
+              renderCalendar(currentYear, currentMonth);
+          });
+
+          monthSelect.addEventListener('change', (e) => {
+              currentMonth = parseInt(e.target.value, 10);
+              renderCalendar(currentYear, currentMonth);
+          });
+      }
+
+      initCalendar();
+    </script>
+  </div>
+</body>
+</html>

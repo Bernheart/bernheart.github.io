@@ -1,0 +1,392 @@
+/* Global Styles */
+
+/* Ensure the body takes up the full viewport height */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The wrapper will take up the full height */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Main content should expand to fill available space */
+.content {
+  flex: 1;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header and Navigation */
+header {
+  background-color: #5d3fd3; /* Violet color */
+  color: #fff;
+  padding: 20px 0;
+  display: flex;
+  align-items: center; /* Vertically center logo and text */
+  justify-content: center; /* Horizontally center logo and text */
+  gap: 10px; /* Add space between logo and text */
+}
+
+header .logo img {
+  height: 50px; /* Adjust the size of the logo */
+  width: auto; /* Maintain aspect ratio */
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2em;
+  text-align: left;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Hero Section */
+#hero {
+  background-color: #7a5cc6; /* Lighter violet */
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+#hero h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+/* Content Sections */
+section {
+  margin: 40px 0;
+}
+
+section h2 {
+  color: #5d3fd3; /* Matching violet theme */
+  border-bottom: 2px solid #5d3fd3;
+  padding-bottom: 10px;
+}
+
+/* News Articles */
+#news article {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 5px solid #5d3fd3;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#news article h3 {
+  margin-top: 0;
+}
+
+/* Footer */
+footer {
+  background-color: #5d3fd3;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* New styles for the header-top container */
+.header-top {
+  display: flex;
+  justify-content: center;  /* Centers the logo+title group horizontally within the container */
+  align-items: center;      /* Vertically centers the items */
+  gap: 10px;                /* Space between the logo and the text */
+  margin-bottom: 10px;      /* Optional: Adds space between header-top and nav */
+}
+
+.header-top .logo img {
+  height: 50px;    /* Adjust to your desired logo height */
+  width: auto;     /* Maintains the aspect ratio */
+}
+
+/* Optional: Adjust the h1 if needed */
+.header-top h1 {
+  margin: 0;
+  font-size: 2em;
+  /* No need for text-align here because flexbox centers the items */
+}
+
+/* Responsive Navigation for Smaller Screens */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column; /* Stack logo and navigation vertically */
+    text-align: center; /* Center text for smaller screens */
+  }
+
+  nav ul {
+    text-align: center; /* Center the navigation links */
+  }
+
+  nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+/* Results Section Styles */
+/* #results {
+  padding: 40px 0;
+} */
+
+.container h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #5d3fd3; /* Matching your violet theme */
+}
+
+#results ul {
+  list-style: none;
+  padding: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#results li {
+  background: #fff;
+  margin: 10px 0;
+  padding: 15px;
+  border-left: 5px solid #5d3fd3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#results li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#results li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  display: block;
+}
+
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+}
+
+.close {
+  color: #aaa;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+}
+
+/* Contact Section Overall Styling */
+/* #contact {
+  padding: 40px 0;
+} */
+
+/* Grid Container for the Contact Cards */
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Individual Contact Card */
+.contact-card {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon Section in Each Card */
+.contact-icon {
+  font-size: 2em;
+  margin-right: 15px;
+  color: #5d3fd3;
+}
+
+/* Details Section in Each Card */
+.contact-details h3 {
+  margin: 0 0 5px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.contact-details p {
+  margin: 0;
+  font-size: 1em;
+}
+
+.contact-details a {
+  color: #333;
+  text-decoration: none;
+}
+
+.contact-details a:hover {
+  text-decoration: underline;
+}
+
+/* Social Media Links Styling */
+.social-links {
+  margin-top: 8px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.95em;
+  color: #5d3fd3;
+  text-decoration: none;
+  border: 1px solid #5d3fd3;
+  border-radius: 4px;
+  padding: 5px 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.social-links a i {
+  margin-right: 5px;
+}
+
+.social-links a:hover {
+  background-color: #5d3fd3;
+  color: #fff;
+}
+
+/* Navigation controls at the top */
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+/* Calendar grid: 7 columns for each day of the week */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+/* Each day is a bordered card */
+.day {
+  border: 1px solid #ccc;
+  height: 100px;
+  padding: 5px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.day:hover {
+  background-color: #f9f9f9;
+}
+/* Display the day number in bold */
+.day-number {
+  font-weight: bold;
+}
+/* Container for event dots */
+.events {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.event-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 2px;
+}
+/* Tooltip style for hover details */
+.tooltip {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #aaa;
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 0.8em;
+  overflow-y: auto;
+}
+.day:hover .tooltip {
+  display: block;
+}

@@ -1,0 +1,16 @@
+[
+    { "date": "10-03-2025", "name": "Warsztaty brydżowe", "color": "#FF5733" },
+    { "date": "05-04-2025", "name": "Seminarium strategii", "color": "#33FF57" },
+    { "date": "20-05-2025", "name": "Mistrzostwa Klubu", "color": "#3357FF" },
+    { "date": "15-03-2025", "name": "Spotkanie z klientem", "color": "#AA33FF" },
+    { "date": "25-03-2025", "name": "Prezentacja nowego produktu", "color": "#33AAFF" },
+    { "date": "01-04-2025", "name": "Dzień Pracy", "color": "#FFAA33", "recurrence": "yearly" },
+    { "date": "08-04-2025", "name": "Poranny jogging", "color": "#AAFF33", "recurrence": "weekly" },
+    { "date": "12-04-2025", "name": "Warsztaty programowania", "color": "#FF33AA" },
+    { "date": "20-04-2025", "name": "Webinar marketingowy", "color": "#33FFAA" },
+    { "date": "30-04-2025", "name": "Spotkanie zespołu", "color": "#AA33AA", "recurrence": "monthly" },
+    { "date": "05-05-2025", "name": "Konferencja branżowa", "color": "#FFAABB" },
+    { "date": "12-05-2025", "name": "Kino plenerowe", "color": "#BBCCDD", "recurrence": "weekly" },
+    { "date": "22-05-2025", "name": "Targi edukacyjne", "color": "#CCDDEE" }
+]
+  
