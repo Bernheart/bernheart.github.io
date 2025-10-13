@@ -250,10 +250,16 @@ footer {
 /* Grid Container for the Contact Cards */
 .contact-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* exactly 2 per row */
   gap: 20px;
   max-width: 1000px;
   margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .contact-cards {
+    grid-template-columns: 1fr; /* single column on small screens */
+  }
 }
 
 /* Individual Contact Card */
@@ -327,6 +333,37 @@ footer {
   color: #fff;
 }
 
+
+
+/* ---- RESULTS ----- */
+
+.tournament-item {
+  margin-bottom: 1em;
+  list-style: none;
+}
+
+.tournament-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: #004aad;
+}
+
+.spider-link {
+  color: #888;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.tournament-date {
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 0.2em;
+}
+
+
+
+/* ---- CALENDAR ---- */
+
 /* Navigation controls at the top */
 .calendar-controls {
   display: flex;
@@ -390,28 +427,36 @@ footer {
 .day:hover .tooltip {
   display: block;
 }
-
-
-/* Results */
-.tournament-item {
-  margin-bottom: 1em;
-  list-style: none;
+/* Style for today's date */
+.today {
+  border: 2px solid #5d3fd3;
+  background-color: #5d3fd32c;
+}
+/* Style for past days */
+.past {
+  background-color: #e0e0e0;
 }
 
-.tournament-link {
+.calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.calendar-day-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   font-weight: bold;
-  text-decoration: none;
-  color: #004aad;
+  text-align: center;
+  margin-bottom: 5px;
 }
-
-.spider-link {
-  color: #888;
-  font-size: 0.9em;
-  text-decoration: none;
+.event-dot-container {
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
-
-.tournament-date {
-  font-size: 0.8em;
-  color: #666;
-  margin-top: 0.2em;
+.event-label {
+  font-size: 0.7em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

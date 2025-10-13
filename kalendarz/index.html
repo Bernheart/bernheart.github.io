@@ -7,102 +7,7 @@
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    /* Navigation controls at the top */
-    .calendar-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    /* Calendar grid: 7 columns for each day of the week */
-    .calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-    }
-    /* Each day is a bordered card */
-    .day {
-      border: 1px solid #ccc;
-      height: 100px;
-      padding: 5px;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .day:hover {
-      background-color: #f9f9f9;
-    }
-    /* Display the day number in bold */
-    .day-number {
-      font-weight: bold;
-    }
-    /* Container for event dots */
-    .events {
-      position: absolute;
-      bottom: 5px;
-      left: 5px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px;
-    }
-    .event-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 2px;
-    }
-    /* Tooltip style for hover details */
-    .tooltip {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.9);
-      border: 1px solid #aaa;
-      padding: 5px;
-      box-sizing: border-box;
-      font-size: 0.8em;
-      overflow-y: auto;
-    }
-    .day:hover .tooltip {
-      display: block;
-    }
-    /* Style for today's date */
-    .today {
-      border: 2px solid #5d3fd3;
-      background-color: #5d3fd32c;
-    }
-    /* Style for past days */
-    .past {
-      background-color: #e0e0e0;
-    }
-
-    .calendar-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .calendar-day-names {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-    .event-dot-container {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .event-label {
-      font-size: 0.7em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    
   </style>
 </head>
 <body>
@@ -158,7 +63,7 @@
       // Load events from an external JSON file (e.g., calendar.json)
       async function loadEvents() {
           try {
-              const response = await fetch('./data/calendar.json');
+              const response = await fetch('/data/calendar.json');
               if (!response.ok) {
                   throw new Error('Network response was not ok');
               }
