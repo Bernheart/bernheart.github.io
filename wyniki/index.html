@@ -34,55 +34,45 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const tournamentList = document.getElementById('tournamentList');
-      const modal = document.getElementById("tournamentModal");
-      const modalContent = document.getElementById("tournamentDetails");
-      const closeBtn = document.querySelector(".close");
   
       // Fetch tournament data from the JSON file
-      fetch("/data/results.json")
-        .then(response => response.json())
-        .then(data => {
-          data.tournaments.forEach(tournament => {
-            // Create list item for each tournament
-            const li = document.createElement('li');
-            const link = document.createElement('a');
-            link.href = "#";
-            link.classList.add('tournament-link');
-            // Store tournament details using a data attribute
-            link.dataset.tournamentId = tournament.id;
-            link.textContent = `${tournament.title} - ${tournament.date}`;
-            li.appendChild(link);
-            tournamentList.appendChild(li);
-          });
-  
-          // Add click event to tournament links
-          document.querySelectorAll('.tournament-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-              e.preventDefault();
-              // Find the tournament data by id
-              const tournamentId = this.dataset.tournamentId;
-              const tournamentData = data.tournaments.find(t => t.id == tournamentId);
-              modalContent.textContent = tournamentData
-                ? tournamentData.details
-                : "Brak szczegółów dla tego turnieju.";
-              modal.style.display = "block";
-            });
-          });
-        })
-        .catch(error => console.error("Error loading tournament data:", error));
-  
-      // Close modal when the user clicks the close button
-      closeBtn.addEventListener('click', function() {
-        modal.style.display = "none";
+  fetch("/data/results.json")
+    .then(response => response.json())
+    .then(data => {
+      data.tournaments.forEach(tournament => {
+        // Create list item
+        const li = document.createElement('li');
+        li.classList.add('tournament-item');
+
+        // Create main tournament link (ptc/{id})
+        const ptcLink = document.createElement('a');
+        ptcLink.href = `ptc/${tournament.id}`;
+        ptcLink.textContent = tournament.title;
+        ptcLink.classList.add('tournament-link');
+
+        // Create spider link
+        const spiderLink = document.createElement('a');
+        spiderLink.href = tournament.spider;
+        spiderLink.textContent = "Pajączek";
+        spiderLink.classList.add('spider-link');
+        spiderLink.target = "_blank"; // open in new tab
+
+        // Create date element
+        const date = document.createElement('div');
+        date.classList.add('tournament-date');
+        date.textContent = tournament.date;
+
+        // Append everything
+        li.appendChild(ptcLink);
+        li.appendChild(document.createTextNode(" | "));
+        li.appendChild(spiderLink);
+        li.appendChild(date);
+
+        tournamentList.appendChild(li);
       });
-  
-      // Close modal when clicking outside the modal content
-      window.addEventListener('click', function(e) {
-        if (e.target == modal) {
-          modal.style.display = "none";
-        }
-      });
-    });
+    })
+    .catch(error => console.error("Error loading tournament data:", error));
+});
   </script>
   
   </main>

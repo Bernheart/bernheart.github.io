@@ -390,3 +390,28 @@ footer {
 .day:hover .tooltip {
   display: block;
 }
+
+
+/* Results */
+.tournament-item {
+  margin-bottom: 1em;
+  list-style: none;
+}
+
+.tournament-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: #004aad;
+}
+
+.spider-link {
+  color: #888;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.tournament-date {
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 0.2em;
+}
